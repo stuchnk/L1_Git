@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Иван Петров",
+    "age": 34,
+    "isActive": true,
+    "registrationDate": "2022-05-14",
+    "services": ["credit", "deposit"]
+  },
+  {
+    "id": 2,
+    "name": "Мария Сидорова",
+    "age": 28,
+    "isActive": false,
+    "registrationDate": "2021-11-02",
+    "services": ["mortgage"]
+  }
+]
