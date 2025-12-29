@@ -1,0 +1,104 @@
+import { createApplication } from './index.js';
+
+const app = createApplication();
+
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
+  next();
+});
+
+// ===== Подключение сервисов =====
+import { setupPoolRoutes } from './services/pool/routes.js';
+setupPoolRoutes(app);
+
+import { setupCinemaRoutes } from './services/cinema/routes.js';
+setupCinemaRoutes(app);
+
+import { setupBankRoutes } from './services/bank/routes.js';
+setupBankRoutes(app);
+
+// ===== Главная страница =====
+app.get('/', (req, res) => {
+  res.json({
+    message: '🚀 Добро пожаловать в L910-Framework!',
+    description: 'Командный проект: Минималистичный веб-фреймворк',
+    team: [
+      'Участник 1: Бассейн',
+      'Участник 2: Кинотеатр',
+      'Участник 3: Банк'
+    ],
+    services: {
+      pool: '🏊 /pool/* - Управление бассейном',
+      cinema: '🎬 /cinema/* - Управление кинотеатром',
+      bank: '🏦 /bank/* - Управление банком'
+    }
+  });
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log('=======================================');
+  console.log('🚀 L910-Framework запущен!');
+  console.log(`📡 Главный сервер: http://localhost:${PORT}`);
+  console.log('=======================================');
+  console.log('Доступные сервисы:');
+
+  // Бассейн
+  console.log('🏊 Бассейн:');
+  console.log('  GET    /pool/visitors         - Все посетители');
+  console.log('  GET    /pool/visitors/:id     - Посетитель по ID');
+  console.log('  POST   /pool/visitors         - Создать посетителя');
+  console.log('  PUT    /pool/visitors/:id     - Обновить посетителя');
+  console.log('  PATCH  /pool/visitors/:id     - Частично обновить');
+  console.log('  DELETE /pool/visitors/:id     - Удалить посетителя');
+  console.log('');
+  console.log('  GET    /pool/coaches          - Все тренеры');
+  console.log('  GET    /pool/coaches/:id      - Тренер по ID');
+  console.log('  POST   /pool/coaches          - Создать тренера');
+  console.log('  PUT    /pool/coaches/:id      - Обновить тренера');
+  console.log('  PATCH  /pool/coaches/:id      - Частично обновить');
+  console.log('  DELETE /pool/coaches/:id      - Удалить тренера');
+  console.log('');
+
+  // Кинотеатр
+  console.log('🎬 Кинотеатр:');
+  console.log('  GET    /cinema/movies         - Все фильмы');
+  console.log('  GET    /cinema/movies/:id     - Фильм по ID');
+  console.log('  POST   /cinema/movies         - Добавить фильм');
+  console.log('  PUT    /cinema/movies/:id     - Обновить фильм');
+  console.log('  PATCH  /cinema/movies/:id     - Частично обновить');
+  console.log('  DELETE /cinema/movies/:id     - Удалить фильм');
+  console.log('');
+  console.log('  GET    /cinema/tickets        - Все билеты');
+  console.log('  GET    /cinema/tickets/:id    - Билет по ID');
+  console.log('  POST   /cinema/tickets        - Купить билет');
+  console.log('  PUT    /cinema/tickets/:id    - Обновить билет');
+  console.log('  PATCH  /cinema/tickets/:id    - Частично обновить');
+  console.log('  DELETE /cinema/tickets/:id    - Отменить билет');
+  console.log('  GET    /cinema/available-tickets - Свободные билеты');
+  console.log('');
+
+  // Банк
+  console.log('🏦 Банк:');
+  console.log('  GET    /bank/clients          - Все клиенты');
+  console.log('  GET    /bank/clients/:id      - Клиент по ID');
+  console.log('  POST   /bank/clients          - Создать клиента');
+  console.log('  PUT    /bank/clients/:id      - Обновить клиента');
+  console.log('  PATCH  /bank/clients/:id      - Частично обновить');
+  console.log('  DELETE /bank/clients/:id      - Удалить клиента');
+  console.log('');
+  console.log('  GET    /bank/accounts         - Все счета');
+  console.log('  GET    /bank/accounts/:id     - Счет по ID');
+  console.log('  POST   /bank/accounts         - Создать счет');
+  console.log('  PUT    /bank/accounts/:id     - Обновить счет');
+  console.log('  PATCH  /bank/accounts/:id     - Частично обновить');
+  console.log('  DELETE /bank/accounts/:id     - Удалить счет');
+  console.log('  GET    /bank/clients/:id/accounts - Все счета клиента');
+  console.log('===============================================');
+  console.log('📚 Примеры запросов:');
+  console.log('  curl http://localhost:3000/pool/visitors');
+  console.log('  curl http://localhost:3000/cinema/movies');
+  console.log('  curl http://localhost:3000/bank/clients');
+  console.log('===============================================');
+  console.log('👥 Ждем добавления сервисов от команды!');
+});
